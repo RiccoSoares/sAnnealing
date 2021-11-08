@@ -15,6 +15,15 @@ class airplaneTrips:
             planeCapacity[k] = 0.8 * (totalWeight/(k+1))
         return planeCapacity
 
+    def __str__(self):
+        return f"""
+        {self.nPeople=}
+        {self.kPlanes=}
+        {len(self.cIndividual)=}
+        {len(self.cPair)=}
+        {len(self.pWeights)=}
+        {len(self.PCapacity)=}"""
+
 
 def createProblemInstance(nInstance : int):
     filename = f'va_instances/VA{nInstance:02d}.dat'
