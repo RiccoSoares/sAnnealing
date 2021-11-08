@@ -15,4 +15,6 @@ class airplaneTrips:
         return planeCapacity
 
 
-
+def createProblemInstance(filename):
+    file = open(filename, 'r')
+    for line in file:
