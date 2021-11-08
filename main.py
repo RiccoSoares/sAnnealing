@@ -17,4 +17,13 @@ class airplaneTrips:
 
 def createProblemInstance(filename):
     file = open(filename, 'r')
-    for line in file:
+    nPeople = int(file.readline())
+    cIndividual = list(map(int, file.readline().split()))
+    cPair = []
+    for i in range(nPeople):
+        cPair.append(list(map(int, file.readline().split())))
+    for i in range(3):
+        file.readline()
+    pWeights = file.readline()
+    newInstance = airplaneTrips(nPeople, kPlanes, cIndividual, cPair, pWeights)
+    return newInstance
