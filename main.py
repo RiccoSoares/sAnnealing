@@ -1,6 +1,5 @@
 class airplaneTrips:
-    def __init__(self, nPeople : int, kPlanes : int, cIndividual : list[int],
-                 cPair : list[list[int]], pWeights : list[int]):
+    def __init__(self, nPeople : int, kPlanes : int, cIndividual : list[int], cPair : list[list[int]], pWeights : list[int]):
         self.nPeople = nPeople
         self.kPlanes = kPlanes
         self.cIndividual = cIndividual
@@ -55,4 +54,9 @@ def readProblemInstance(nInstance : int):
     newInstance = airplaneTrips(nPeople, kPlanes, cIndividual, cPair, pWeights)
     return newInstance
 
+def main():
 
+    print(readProblemInstance(1))
+
+if __name__ == "__main__":
+    main()
