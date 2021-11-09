@@ -25,23 +25,33 @@ class airplaneTrips:
         {len(self.PCapacity)=}"""
 
 
-def createProblemInstance(nInstance : int):
+def readProblemInstance(nInstance : int):
     filename = f'va_instances/VA{nInstance:02d}.dat'
     file = open(filename, 'r')
-    nPeople = int(file.readline())
-    cIndividual = list(map(int, file.readline().split()))
-    cPair = []
-    for i in range(nPeople):
-        cPair.append(list(map(int, file.readline().split())))
-    for i in range(3):
+
+    nPeople = int(file.readline()) #first line is n
+    cIndividual = list(map(int, file.readline().split())) #second line is c vector
+
+    cPair = [None] * nPeople
+    for i in range(nPeople - 1):  # n - 1 lines of matrix c
+        cPairLine = [None] * nPeople
+        lineRead = list(map(int, file.readline().split()))
+        for j in range(len(lineRead)):
+            cPairLine[j] = lineRead[j]
+        cPair[i] = cPairLine
+
+    for i in range(3):      # 3 lines of nothing
         file.readline()
-    pWeights = list(map(int, file.readline().split()))
+
+    pWeights = list(map(int, file.readline().split())) # last line is the weights
+
     if (nPeople - 1)%3 == 0:
         kPlanes = 3
     elif (nPeople - 1)%3 == 1:
         kPlanes = 5
     elif (nPeople - 1)%3 == 2:
         kPlanes = 10
+
     newInstance = airplaneTrips(nPeople, kPlanes, cIndividual, cPair, pWeights)
     return newInstance
 
