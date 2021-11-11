@@ -35,15 +35,16 @@ def readProblemInstance(nInstance : int):
     nPeople = int(file.readline()) #first line is n
     cIndividual = np.fromiter(map(int, file.readline().split()), int) #second line is c vector
 
-    cPair = np.zeros((nPeople, nPeople))
-    for i in range(nPeople - 1):  # n - 1 lines of matrix c
+    cPair = np.zeros((nPeople, nPeople)) 
+    for i in range(nPeople - 1):  
         lineRead = np.fromiter(map(int, file.readline().split()), int)
         for j in range(lineRead.size):
-            cPair[i][i+j+1] = lineRead[j]
+            cPair[i][i+j+1] = lineRead[j] #next lines are matrix c, i in [n-1], j in [i+1,n]
             cPair[i+j+1][i] = lineRead[j]
 
     np.set_printoptions(linewidth=100000, threshold=10000)
-    with open('out.txt', 'w') as f:
+
+    with open('cPairLog.txt', 'w') as f: #print to debug file 
         with redirect_stdout(f):
             print(cPair)
     
