@@ -1,6 +1,9 @@
+import numpy as np
+from contextlib import redirect_stdout
+
 class problemInstance:
-    def __init__(self, nPeople : int, kPlanes : int, cIndividual : list[int],
-                 cPair : list[list[int]], pWeights : list[int]):
+    def __init__(self, nPeople : int, kPlanes : int, cIndividual : np.ndarray,
+                 cPair : np.ndarray, pWeights : np.ndarray):
         self.nPeople = nPeople
         self.kPlanes = kPlanes
         self.cIndividual = cIndividual
@@ -8,9 +11,9 @@ class problemInstance:
         self.pWeights = pWeights
         self.PCapacity = self.calculatePlaneCapacity(pWeights, kPlanes)
 
-    def calculatePlaneCapacity(self, pWeights : list[int], kPlanes : int):
-        planeCapacity = [None] * kPlanes
-        totalWeight = sum(pWeights)
+    def calculatePlaneCapacity(self, pWeights : np.ndarray, kPlanes : int):
+        planeCapacity = np.zeros(kPlanes)
+        totalWeight = np.sum(pWeights)
         for k in range(kPlanes):
             planeCapacity[k] = 0.8 * (totalWeight/(k+1))
         return planeCapacity
@@ -19,10 +22,10 @@ class problemInstance:
         return f"""
         {self.nPeople=}
         {self.kPlanes=}
-        {len(self.cIndividual)=}
-        {len(self.cPair)=}
-        {len(self.pWeights)=}
-        {len(self.PCapacity)=}"""
+        {self.cIndividual.size=}
+        {self.cPair.size=}
+        {self.pWeights.size=}
+        {self.PCapacity.size=}"""
 
 
 def readProblemInstance(nInstance : int):
@@ -30,21 +33,24 @@ def readProblemInstance(nInstance : int):
     file = open(filename, 'r')
 
     nPeople = int(file.readline()) #first line is n
-    cIndividual = list(map(int, file.readline().split())) #second line is c vector
+    cIndividual = np.fromiter(map(int, file.readline().split()), int) #second line is c vector
 
-    cPair = [None] * nPeople
+    cPair = np.zeros((nPeople, nPeople))
     for i in range(nPeople - 1):  # n - 1 lines of matrix c
-        cPairLine = [None] * nPeople
-        lineRead = list(map(int, file.readline().split()))
-        for j in range(len(lineRead)):
-            cPairLine[j] = lineRead[j]
-        cPair[i] = cPairLine
-    print(cPair)
+        lineRead = np.fromiter(map(int, file.readline().split()), int)
+        for j in range(lineRead.size):
+            cPair[i][i+j+1] = lineRead[j]
+            cPair[i+j+1][i] = lineRead[j]
 
+    np.set_printoptions(linewidth=100000, threshold=10000)
+    with open('out.txt', 'w') as f:
+        with redirect_stdout(f):
+            print(cPair)
+    
     for i in range(3):      # 3 lines of nothing
         file.readline()
 
-    pWeights = list(map(int, file.readline().split())) # last line is the weights
+    pWeights = np.fromiter(map(int, file.readline().split()), int) # last line is the weights
 
     if (nPeople - 1)%3 == 0:
         kPlanes = 3
@@ -52,6 +58,8 @@ def readProblemInstance(nInstance : int):
         kPlanes = 5
     elif (nPeople - 1)%3 == 2:
         kPlanes = 10
+    else:
+        kPlanes = -1
 
     return problemInstance(nPeople, kPlanes, cIndividual, cPair, pWeights) 
 
