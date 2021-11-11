@@ -1,5 +1,6 @@
-class airplaneTrips:
-    def __init__(self, nPeople : int, kPlanes : int, cIndividual : list[int], cPair : list[list[int]], pWeights : list[int]):
+class problemInstance:
+    def __init__(self, nPeople : int, kPlanes : int, cIndividual : list[int],
+                 cPair : list[list[int]], pWeights : list[int]):
         self.nPeople = nPeople
         self.kPlanes = kPlanes
         self.cIndividual = cIndividual
@@ -38,6 +39,7 @@ def readProblemInstance(nInstance : int):
         for j in range(len(lineRead)):
             cPairLine[j] = lineRead[j]
         cPair[i] = cPairLine
+    print(cPair)
 
     for i in range(3):      # 3 lines of nothing
         file.readline()
@@ -51,8 +53,7 @@ def readProblemInstance(nInstance : int):
     elif (nPeople - 1)%3 == 2:
         kPlanes = 10
 
-    newInstance = airplaneTrips(nPeople, kPlanes, cIndividual, cPair, pWeights)
-    return newInstance
+    return problemInstance(nPeople, kPlanes, cIndividual, cPair, pWeights) 
 
 def main():
 
@@ -60,3 +61,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+        
+
