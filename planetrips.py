@@ -1,7 +1,7 @@
 import numpy as np
-from contextlib import redirect_stdout
+from contextlib import redirect_stdout #only for outputting debug to log file, may be deleted later
 
-class problemInstance:
+class Instance:
     def __init__(self, nPeople : int, kPlanes : int, cIndividual : np.ndarray,
                  cPair : np.ndarray, pWeights : np.ndarray):
         self.nPeople = nPeople
@@ -28,7 +28,7 @@ class problemInstance:
         {self.PCapacity.size=}"""
 
 
-def readProblemInstance(nInstance : int):
+def readInstance(nInstance : int):
     filename = f'va_instances/VA{nInstance:02d}.dat'
     file = open(filename, 'r')
 
@@ -62,11 +62,12 @@ def readProblemInstance(nInstance : int):
     else:
         kPlanes = -1
 
-    return problemInstance(nPeople, kPlanes, cIndividual, cPair, pWeights) 
+    return Instance(nPeople, kPlanes, cIndividual, cPair, pWeights) 
+
 
 def main():
 
-    print(readProblemInstance(1))
+    print(readInstance(1))
 
 if __name__ == "__main__":
     main()
