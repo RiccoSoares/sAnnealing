@@ -28,6 +28,14 @@ class Instance:
         {self.PCapacity.size=}"""
 
 
+class Solution:
+    def __init__(self, kPlanes : int, nPeople : int):
+        self.vMatrix = np.zeros((kPlanes, nPeople))
+
+    def allocate(self, nPerson, kPlane):
+        self.vMatrix[kPlane][nPerson] = 1
+        
+
 def readInstance(nInstance : int):
     filename = f'va_instances/VA{nInstance:02d}.dat'
     file = open(filename, 'r')
