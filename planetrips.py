@@ -25,7 +25,8 @@ class Instance:
         {self.cIndividual.size=}
         {self.cPair.size=}
         {self.pWeights.size=}
-        {self.PCapacity.size=}"""
+        {self.PCapacity.size=}
+        """
 
 
 class Solution:
@@ -50,11 +51,15 @@ def readInstance(nInstance : int):
             cPair[i][i+j+1] = lineRead[j] #next lines are matrix c, i in [n-1], j in [i+1,n]
             cPair[i+j+1][i] = lineRead[j]
 
-    np.set_printoptions(linewidth=100000, threshold=10000)
+    """
+    Prints cPair matrix to log file for debug purposes
+    TODO: delete this portion as soon as cPair's content is consistenly tested
 
-    with open('cPairLog.txt', 'w') as f: #print to debug file 
+    np.set_printoptions(linewidth=100000, threshold=10000)
+    with open('cPairLog.txt', 'w') as f: 
         with redirect_stdout(f):
             print(cPair)
+    """
     
     for i in range(3):      # 3 lines of nothing
         file.readline()
@@ -71,13 +76,3 @@ def readInstance(nInstance : int):
         kPlanes = -1
 
     return Instance(nPeople, kPlanes, cIndividual, cPair, pWeights) 
-
-
-def main():
-
-    print(readInstance(1))
-
-if __name__ == "__main__":
-    main()
-        
-
