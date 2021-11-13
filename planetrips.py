@@ -1,5 +1,16 @@
 import numpy as np
-from contextlib import redirect_stdout #only for outputting debug to log file, may be deleted later
+#from contextlib import redirect_stdout #only for outputting debug to log file, may be deleted later
+
+class Solution:
+    def __init__(self, kPlanes : int, nPeople : int):
+        self.vMatrix = np.zeros((kPlanes, nPeople))
+
+    def allocate(self, nPerson, kPlane):
+        self.vMatrix[kPlane][nPerson] = 1
+
+    def __str__(self):
+        return str(self.vMatrix)
+        
 
 class Instance:
     def __init__(self, nPeople : int, kPlanes : int, cIndividual : np.ndarray,
@@ -18,6 +29,24 @@ class Instance:
             planeCapacity[k] = 0.8 * (totalWeight/(k+1))
         return planeCapacity
 
+    def isFeasible(self, sol : Solution):
+        planesPerPerson = sol.vMatrix.sum(axis=0) 
+
+        #sum of planes per person is bool, only one or zero
+        onePlanePerPerson = np.array_equal(planesPerPerson, planesPerPerson.astype(bool))
+        if not onePlanePerPerson:
+            return False
+        plane = 0
+        for row in sol.vMatrix:
+            planeWeight = 0
+            for person in range(self.nPeople):
+                planeWeight += row[person]*self.pWeights[person]
+                if planeWeight > self.PCapacity[plane]:
+                    return False    
+            plane += 1
+
+        return True
+                     
     def __str__(self):
         return f"""
         {self.nPeople=}
@@ -29,16 +58,8 @@ class Instance:
         """
 
 
-class Solution:
-    def __init__(self, kPlanes : int, nPeople : int):
-        self.vMatrix = np.zeros((kPlanes, nPeople))
-
-    def allocate(self, nPerson, kPlane):
-        self.vMatrix[kPlane][nPerson] = 1
-        
-
 def readInstance(nInstance : int):
-    filename = f'va_instances/VA{nInstance:02d}.dat'
+    filename = f'data/VA{nInstance:02d}.dat'
     file = open(filename, 'r')
 
     nPeople = int(file.readline()) #first line is n
