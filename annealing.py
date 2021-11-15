@@ -4,7 +4,7 @@ import math
 import random
 import planetrips as va
 import greedysol as greedy
-INITIAL_TEMPERATURE = 1
+MIN_TEMPERATURE = 0.01
 COOLING_RATE = 0.8
 
 def flipCoin(prob: float): #returns the result of a coin flip (true or false) with probability equals prob
@@ -12,11 +12,16 @@ def flipCoin(prob: float): #returns the result of a coin flip (true or false) wi
     
     return False
 
+def calcInitialTemp(inst: va.Instance): #calculates the initial temp for the algorithm, following the given specifications.
+    #not implemented yet
+    
+    return 1
+
 def simulatedAnnealing(inst: va.Instance): #inst arg represents an initial solution given by greedy algorithm.
-    temp = INITIAL_TEMPERATURE
+    temp = calcInitialTemp
     current_sol = inst
     
-    while (temp > 0.01):
+    while (temp > MIN_TEMPERATURE):
         current_eval = va.evaluateSolution(current_sol)
         candidate = va.returnNeighbour(current_sol)
         candidate_eval = va.evaluateSolution(candidate)
