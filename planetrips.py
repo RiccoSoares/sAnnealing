@@ -5,20 +5,20 @@ class Solution:
     def __init__(self, kPlanes : int, nPeople : int):
         self.vMatrix = np.zeros((kPlanes, nPeople))
 
-    def allocate(self, plane, person):
+    def allocate(self, person, plane):
         self.vMatrix[plane][person] = 1
-    
-    def deAllocate(self, plane, person):
+        
+    def deAllocate(self, person, plane):
         self.vMatrix[plane][person] = 0
         
-    def getAllocation(self, plane, person):
+    def getAllocation(self, person, plane):
         return self.vMatrix[plane][person]
         
-    def invAllocation(self, plane, person): #inverts the desired allocation
-        if self.getAllocation(plane, person):
-            self.deAllocate(plane, person)
+    def invAllocation(self, person, plane):
+        if self.getAllocation(person, plane):
+            self.deAllocate(person, plane)
         else:
-            self.allocate(plane, person)
+            self.allocate(person, plane)
 
     def __str__(self):
         return str(self.vMatrix)
@@ -65,11 +65,11 @@ class Instance:
             
             for plane in range(self.kPlanes):
                 for person in range(self.nPeople):
-                    if (sol.getAllocation(plane, person)):  #if the person is allocated to the plane
+                    if (sol.getAllocation(person, plane)):  #if the person is allocated to the plane
                         val += self.cIndividual[person]
                         
                     for anotherPerson in range(self.nPeople):
-                        if (sol.getAllocation(plane, anotherPerson)):
+                        if (sol.getAllocation(anotherPerson, plane)):
                             val += self.cPair[person][anotherPerson]
                     
             return val
