@@ -7,6 +7,9 @@ class Solution:
 
     def allocate(self, nPerson, kPlane):
         self.vMatrix[kPlane][nPerson] = 1
+        
+    def getAllocation(self, plane, person):
+        return self.vMatrix[plane][person]
 
     def __str__(self):
         return str(self.vMatrix)
@@ -48,8 +51,19 @@ class Instance:
         return True
         
     def evaluateSolution(self, sol : Solution): #returns the profit assured by given solution or -1 in case the solution is not feasible.
-        if isFeasible(sol):
-            return 0 #not implemented yet
+        if self.isFeasible(sol):
+            val = 0
+            
+            for plane in range(self.kPlanes):
+                for person in range(self.nPeople):
+                    if (sol.getAllocation(plane, person)):  #if the person is allocated to the plane
+                        val += self.cIndividual[person]
+                        
+                    for anotherPerson in range(self.nPeople):
+                        if (sol.getAllocation(plane, anotherPerson)):
+                            val += self.cPair[person][anotherPerson]
+                    
+            return val
         else:
             return -1
             

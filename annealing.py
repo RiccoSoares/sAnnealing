@@ -47,7 +47,8 @@ def simulatedAnnealing(inst: va.Instance): #inst arg represents an initial solut
 def main():
     instance = va.readInstance(1)
     solution = greedy.greedySolution(instance)
-    print(instance.isFeasible(solution))
+    print("Initial solution is feasable: ", instance.isFeasible(solution))
+    print("Initial solution value: ", instance.evaluateSolution(solution))
     #new_solution = simulatedAnnealing(solution)
     #print(instance.isFeasible(new_solution))
 
