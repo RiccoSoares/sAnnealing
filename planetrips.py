@@ -5,11 +5,20 @@ class Solution:
     def __init__(self, kPlanes : int, nPeople : int):
         self.vMatrix = np.zeros((kPlanes, nPeople))
 
-    def allocate(self, nPerson, kPlane):
-        self.vMatrix[kPlane][nPerson] = 1
+    def allocate(self, plane, person):
+        self.vMatrix[plane][person] = 1
+    
+    def deAllocate(self, plane, person):
+        self.vMatrix[plane][person] = 0
         
     def getAllocation(self, plane, person):
         return self.vMatrix[plane][person]
+        
+    def invAllocation(self, plane, person): #inverts the desired allocation
+        if self.getAllocation(plane, person):
+            self.deAllocate(plane, person)
+        else:
+            self.allocate(plane, person)
 
     def __str__(self):
         return str(self.vMatrix)
