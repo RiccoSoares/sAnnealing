@@ -3,6 +3,8 @@ import numpy as np
 import planetrips as va
 import greedysol as greedy
 
+def simulatedAnnealing(inst: va.Instance):
+    
 
 def main():
     instance = va.readInstance(1)

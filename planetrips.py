@@ -22,7 +22,7 @@ class Instance:
         self.pWeights = pWeights
         self.PCapacity = self.calculatePlaneCapacity(pWeights, kPlanes)
 
-    def calculatePlaneCapacity(self, pWeights : np.ndarray, kPlanes : int):
+    def calculatePlaneCapacity(self, pWeights : np.ndarray, kPlanes : int): #calculates a plane capacity following the given description.
         planeCapacity = np.zeros(kPlanes)
         totalWeight = np.sum(pWeights)
         for k in range(kPlanes):
