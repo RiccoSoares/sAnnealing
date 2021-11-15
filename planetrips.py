@@ -46,6 +46,17 @@ class Instance:
             plane += 1
 
         return True
+        
+    def evaluateSolution(self, sol : Solution): #returns the profit assured by given solution or -1 in case the solution is not feasible.
+        if isFeasible(sol):
+            return 0 #not implemented yet
+        else:
+            return -1
+            
+    def returnNeighbour(self, sol : Solution): #returns a random neighbour from given solution.
+        #not implemented yet
+        
+        return sol
                      
     def __str__(self):
         return f"""
