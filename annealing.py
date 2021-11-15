@@ -8,9 +8,8 @@ MIN_TEMPERATURE = 0.01
 COOLING_RATE = 0.8
 
 def flipCoin(prob: float): #returns the result of a coin flip (true or false) with probability equals prob
-    #not implemented yet
     
-    return False
+    return random.random() > prob
 
 def calcInitialTemp(inst: va.Instance): #calculates the initial temp for the algorithm, following the given specifications.
     #not implemented yet
