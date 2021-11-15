@@ -16,22 +16,28 @@ def calcInitialTemp(inst: va.Instance): #calculates the initial temp for the alg
     
     return 1
 
+def calcIParameter(inst: va.Instance): #calculates the I parameter, following the given specifications.
+    
+    return inst.nPeople * inst.kPlanes
+
 def simulatedAnnealing(inst: va.Instance): #inst arg represents an initial solution given by greedy algorithm.
     temp = calcInitialTemp
     current_sol = inst
+    I = calcIParameter(inst) #corresponds to the number of iterations without changing the temp value.
     
     while (temp > MIN_TEMPERATURE):
-        current_eval = va.evaluateSolution(current_sol)
-        candidate = va.returnNeighbour(current_sol)
-        candidate_eval = va.evaluateSolution(candidate)
-        delta = candidate_eval - current_eval
-        
-        if delta > 0:
-            current_sol = candidate
-        else:
-            accept_prob = pow(math.e, delta/temp)
-            if flipCoin(accept_prob):
+        for i in range(I):
+            current_eval = va.evaluateSolution(current_sol)
+            candidate = va.returnNeighbour(current_sol)
+            candidate_eval = va.evaluateSolution(candidate)
+            delta = candidate_eval - current_eval
+            
+            if delta > 0:
                 current_sol = candidate
+            else:
+                accept_prob = pow(math.e, delta/temp)
+                if flipCoin(accept_prob):
+                    current_sol = candidate
         
         temp = temp*COOLING_RATE #updates 
     
