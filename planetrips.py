@@ -29,7 +29,7 @@ class Instance:
             planeCapacity[k] = 0.8 * (totalWeight/(k+1))
         return planeCapacity
 
-    def isFeasible(self, sol : Solution):
+    def isFeasible(self, sol : Solution): #determines wether or not a solution is feasible
         planesPerPerson = sol.vMatrix.sum(axis=0) 
 
         #sum of planes per person is bool, only one or zero
@@ -58,7 +58,7 @@ class Instance:
         """
 
 
-def readInstance(nInstance : int):
+def readInstance(nInstance : int): #reads instances from input file. 
     filename = f'data/VA{nInstance:02d}.dat'
     file = open(filename, 'r')
 
@@ -82,7 +82,7 @@ def readInstance(nInstance : int):
             print(cPair)
     """
     
-    for i in range(3):      # 3 lines of nothing
+    for i in range(3):      # 3 lines of nothing, according to input file's description.
         file.readline()
 
     pWeights = np.fromiter(map(int, file.readline().split()), int) # last line is the weights

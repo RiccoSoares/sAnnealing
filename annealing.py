@@ -2,7 +2,7 @@ import planetrips as va
 from contextlib import redirect_stdout #only for outputting debug to log file, may be deleted later
 import numpy as np
 
-def greedySolution(inst : va.Instance):
+def greedySolution(inst : va.Instance): #finds an initial greedy solution that will be optimized with simulated annealing
     availableSpace = inst.PCapacity.tolist()
     availablePeople = list(range(inst.nPeople))
     sol = va.Solution(inst.kPlanes, inst.nPeople)
