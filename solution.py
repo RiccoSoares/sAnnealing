@@ -33,12 +33,14 @@ class Solution:
         self.vMatrix[plane][person] = 1
         personValue = self.__instance.cIndividual[person]
         personValue += np.sum(self.__instance.cPair[person] * self.vMatrix[plane])
+        self.freeSpace[plane] -= self.__instance.pWeights[person]
         self.value += personValue
 
     def deallocate(self, person, plane):
         self.vMatrix[plane][person] = 0
         personValue = self.__instance.cIndividual[person]
         personValue += np.sum(self.__instance.cPair[person] * self.vMatrix[plane])
+        self.freeSpace[plane] += self.__instance.pWeights[person]
         self.value -= personValue
         
     def getAllocation(self, person, plane):
