@@ -2,7 +2,6 @@ import math
 import random
 from copy import deepcopy
 import planetrips as va
-from solution import Solution
 from greedysol import greedySolution
 import numpy as np
 MIN_TEMPERATURE = 10
@@ -16,16 +15,8 @@ def calcInitialTemp(inst: va.Instance): #calculates the initial temp for the alg
     return 100000
 
 def calcIParameter(inst: va.Instance): #calculates the I parameter, following the given specifications.
-    return inst.nPeople * inst.kPlanes *100
+    return inst.nPeople * inst.kPlanes 
 
-def metropolis(sol : Solution, temp : float, iterations : int):
-    neighbourhood = sol.listNeighbours()
-    for i in range(iterations):
-        delta = sol.value - neighbourhood[i].value
-        if delta > 0:
-            sol = neighbourhood[i]
-            neighbourhood = sol.listNeighbours()
-        neighbourhood
 
 def simulatedAnnealing(inst: va.Instance): #inst arg represents an initial solution given by greedy algorithm.
     temp = calcInitialTemp(inst)
@@ -44,7 +35,6 @@ def simulatedAnnealing(inst: va.Instance): #inst arg represents an initial solut
                 accept_prob = pow(math.e,-delta/temp)
                 if flipCoin(accept_prob):
                     current = deepcopy(candidate)
-        print(current.value)
         temp = temp*COOLING_RATE #updates the temperature
     return current
     
@@ -52,10 +42,13 @@ def simulatedAnnealing(inst: va.Instance): #inst arg represents an initial solut
 def main():
     instance = va.readInstance(1)
     greedy = greedySolution(instance)
-    np.set_printoptions(linewidth=1000)
-    #print(greedy.vMatrix)
-    for solution in greedy.listNeighbours():
-        print(solution.vMatrix)
+    annealed = simulatedAnnealing(instance)
+    print("Initial solution is feasable: ", greedy.isFeasible())
+    print("Initial solution value: ", greedy.value)
+
+    print("Found value: ", annealed.value)
+    #new_solution = simulatedAnnealing(solution)
+    #print(instance.isFeasible(new_solution))
 
 if __name__ == "__main__":
     main()

@@ -17,32 +17,28 @@ class Solution:
             freeSpace[plane] = self.__instance.PCapacity[plane] - planeWeight 
         return freeSpace
 
-    def listNeighbours(self):
-        neighbourhood = []
-        for person in random.sample(range(self.__instance.nPeople), self.__instance.nPeople):
-            for plane in random.sample(range(self.__instance.kPlanes), self.__instance.kPlanes):
-                if(self.vMatrix[plane][person]):
-                    neighbour = copy.copy(self)
-                    neighbour.deallocate(person, plane)
-                    neighbourhood.append(neighbour)
-                elif(not np.sum(self.vMatrix[:,person])) and self.__instance.pWeights[person] <= self.freeSpace[plane]:
-                    neighbour = copy.copy(self)
-                    neighbour.allocate(person, plane)
-                    neighbourhood.append(neighbour)
-        return neighbourhood
+    def randomNeighbourStep(self):
+        nonFeasible = True
+        while(nonFeasible):
+            plane = random.randint(0, self.__instance.kPlanes - 1)
+            person = random.randint(0, self.__instance.nPeople - 1)
+            if(self.vMatrix[plane][person]):
+                self.deallocate(person, plane)
+                nonFeasible = False
+            elif(not np.sum(self.vMatrix[:,person])) and self.__instance.pWeights[person] <= self.freeSpace[plane]:
+                self.allocate(person, plane)
+                nonFeasible = False
 
     def allocate(self, person, plane):
         self.vMatrix[plane][person] = 1
         personValue = self.__instance.cIndividual[person]
         personValue += np.sum(self.__instance.cPair[person] * self.vMatrix[plane])
-        self.freeSpace[plane] -= self.__instance.pWeights[person]
         self.value += personValue
 
     def deallocate(self, person, plane):
         self.vMatrix[plane][person] = 0
         personValue = self.__instance.cIndividual[person]
         personValue += np.sum(self.__instance.cPair[person] * self.vMatrix[plane])
-        self.freeSpace[plane] += self.__instance.pWeights[person]
         self.value -= personValue
         
     def getAllocation(self, person, plane):
