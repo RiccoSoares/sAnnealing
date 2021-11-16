@@ -1,5 +1,5 @@
 import numpy as np
-from copy import deepcopy
+import copy
 import random
 import planetrips
 
@@ -17,17 +17,19 @@ class Solution:
             freeSpace[plane] = self.__instance.PCapacity[plane] - planeWeight 
         return freeSpace
 
-    def randomNeighbourStep(self):
-        notFeasible = True
-        while(notFeasible):
-            plane = random.randint(0, self.__instance.kPlanes - 1)
-            person = random.randint(0, self.__instance.nPeople - 1)
-            if(self.vMatrix[plane][person]):
-                self.deallocate(person, plane)
-                notFeasible = False
-            elif(not np.sum(self.vMatrix[:,person])) and self.__instance.pWeights[person] <= self.freeSpace[plane]:
-                self.allocate(person, plane)
-                notFeasible = False
+    def listNeighbours(self):
+        neighbourhood = []
+        for person in random.sample(range(self.__instance.nPeople), self.__instance.nPeople):
+            for plane in random.sample(range(self.__instance.kPlanes), self.__instance.kPlanes):
+                if(self.vMatrix[plane][person]):
+                    neighbour = copy.copy(self)
+                    neighbour.deallocate(person, plane)
+                    neighbourhood.append(neighbour)
+                elif(not np.sum(self.vMatrix[:,person])) and self.__instance.pWeights[person] <= self.freeSpace[plane]:
+                    neighbour = copy.copy(self)
+                    neighbour.allocate(person, plane)
+                    neighbourhood.append(neighbour)
+        return neighbourhood
 
     def allocate(self, person, plane):
         self.vMatrix[plane][person] = 1
@@ -87,14 +89,10 @@ class Solution:
             return val
         else:
             return -1
-            
-
-    def returnNeighbour(self): #returns a random neighbour from given solution.
-        sol = deepcopy(self)
-        plane = random.choice(range(self.__instance.kPlanes))
-        person = random.choice(range(self.__instance.nPeople))
-        sol.invAllocation(person, plane)
         
-        return sol
     def __str__(self):
         return str(self.vMatrix)
+
+    def __copy__(self):
+        memo = {id(self.__instance): copy.copy(self.__instance)} 
+        return copy.deepcopy(self, memo)
