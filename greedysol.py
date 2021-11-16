@@ -12,7 +12,7 @@ def greedySolution(inst : va.Instance): #finds an initial greedy solution that w
 
         if person != -1 and inst.pWeights[person] <= solution.freeSpace[plane]:
             #if person fits in plane, allocate them, else go to next plane
-            solution.allocate(person, plane)
+            solution.vMatrix[plane][person] = 1
             solution.freeSpace[plane] -= inst.pWeights[person]
             availablePeople.remove(person)
             planeHasSpace = True
@@ -23,9 +23,10 @@ def greedySolution(inst : va.Instance): #finds an initial greedy solution that w
                 #return friend with biggest value/weight ratio, or -1 if there is no person available
                 if friend != -1 and inst.pWeights[friend] <= solution.freeSpace[plane]:
                     #if friend fits, allocate them, else go to next plane
-                    solution.allocate(friend, plane)
+                    solution.vMatrix[plane][friend] = 1
                     solution.freeSpace[plane] -= inst.pWeights[friend]
                     availablePeople.remove(friend)
                 else:
                     planeHasSpace = False
+    solution.value = solution.evaluate()
     return solution

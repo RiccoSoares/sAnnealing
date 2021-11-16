@@ -13,21 +13,40 @@ class Solution:
     def __calculateFreeSpace(self):
         freeSpace = np.zeros(self.__instance.kPlanes)
         for plane in range(self.__instance.kPlanes):
-            planeWeight = sum(self.__instance.pWeights * self.vMatrix[plane])
+            planeWeight = np.sum(self.__instance.pWeights * self.vMatrix[plane])
             freeSpace[plane] = self.__instance.PCapacity[plane] - planeWeight 
         return freeSpace
 
+    def randomNeighbourStep(self):
+        nonFeasible = True
+        while(nonFeasible):
+            plane = random.randint(0, self.__instance.kPlanes - 1)
+            person = random.randint(0, self.__instance.nPeople - 1)
+            if(self.vMatrix[plane][person]):
+                self.deallocate(person, plane)
+                nonFeasible = False
+            elif(not np.sum(self.vMatrix[:,person])) and self.__instance.pWeights[person] <= self.freeSpace[plane]:
+                self.allocate(person, plane)
+                nonFeasible = False
+
     def allocate(self, person, plane):
         self.vMatrix[plane][person] = 1
-    def deAllocate(self, person, plane):
+        personValue = self.__instance.cIndividual[person]
+        personValue += np.sum(self.__instance.cPair[person] * self.vMatrix[plane])
+        self.value += personValue
+
+    def deallocate(self, person, plane):
         self.vMatrix[plane][person] = 0
+        personValue = self.__instance.cIndividual[person]
+        personValue += np.sum(self.__instance.cPair[person] * self.vMatrix[plane])
+        self.value -= personValue
         
     def getAllocation(self, person, plane):
         return self.vMatrix[plane][person]
         
     def invAllocation(self, person, plane):
         if self.getAllocation(person, plane):
-            self.deAllocate(person, plane)
+            self.deallocate(person, plane)
         else:
             self.allocate(person, plane)
 

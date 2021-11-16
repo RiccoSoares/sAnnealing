@@ -27,7 +27,7 @@ def simulatedAnnealing(inst: va.Instance): #inst arg represents an initial solut
     
     while (temp > MIN_TEMPERATURE):
         for i in range(I):
-            current_eval = va.evaluateSolution(current_sol)
+            current_eval = va.valuateSolution(current_sol)
             candidate = va.returnNeighbour(current_sol)
             candidate_eval = va.evaluateSolution(candidate)
             delta = candidate_eval - current_eval
@@ -48,10 +48,10 @@ def main():
     instance = va.readInstance(1)
     solution = greedy.greedySolution(instance)
     print("Initial solution is feasable: ", solution.isFeasible())
-    print("Initial solution value: ", solution.evaluate())
-    new_solution = solution.returnNeighbour()
-    print("New Solution is feasable: ", new_solution.isFeasible())
-    print("New Solution value: ", new_solution.evaluate())
+    print("Initial solution value: ", solution.value)
+    solution.randomNeighbourStep()
+    print("New Solution is feasable: ", solution.isFeasible())
+    print("New Solution value: ", solution.value)
     #new_solution = simulatedAnnealing(solution)
     #print(instance.isFeasible(new_solution))
 

@@ -9,22 +9,6 @@ class Instance:
         self.cPair = cPair
         self.pWeights = pWeights
         self.PCapacity = self.__calculatePlaneCapacity(pWeights, kPlanes)
-        self.sortedIndexes = None       #if instance is sorted by weight, holds array that represent the sorted indexes
-
-
-    def sortByWeight(self):
-        self.sortedIndexes = np.argsort(self.pWeights)
-        weightsCopy = self.pWeights.copy()
-        individualCopy = self.cIndividual.copy()
-        cPairCopy = self.cPair.copy()
-        for person in range(self.nPeople):
-            index = self.sortedIndexes[person]
-            self.pWeights[person] = weightsCopy[index]
-            self.cIndividual[person] = individualCopy[index]
-            for friend in range(self.nPeople):
-                friendIndex = self.sortedIndexes[friend]
-                self.cPair[person][friend] = cPairCopy[index][friendIndex]
-
 
     def __calculatePlaneCapacity(self, pWeights : np.ndarray, kPlanes : int): #calculates a plane capacity following the given description.
         planeCapacity = np.zeros(kPlanes)
@@ -42,7 +26,6 @@ class Instance:
         {self.pWeights.size=}
         {self.PCapacity.size=}
         """
-
 
 def readInstance(nInstance : int): #reads instances from input file. 
     filename = f'data/VA{nInstance:02d}.dat'
@@ -72,7 +55,4 @@ def readInstance(nInstance : int): #reads instances from input file.
     else:
         kPlanes = -1
 
-    instance = Instance(nPeople, kPlanes, cIndividual, cPair, pWeights) 
-    instance.sortByWeight()
-
-    return instance
+    return Instance(nPeople, kPlanes, cIndividual, cPair, pWeights) 
