@@ -1,29 +1,4 @@
 import numpy as np
-import random
-#from contextlib import redirect_stdout #only for outputting debug to log file, may be deleted later
-
-class Solution:
-    def __init__(self, kPlanes : int, nPeople : int):
-        self.vMatrix = np.zeros((kPlanes, nPeople))
-
-    def allocate(self, person, plane):
-        self.vMatrix[plane][person] = 1
-        
-    def deAllocate(self, person, plane):
-        self.vMatrix[plane][person] = 0
-        
-    def getAllocation(self, person, plane):
-        return self.vMatrix[plane][person]
-        
-    def invAllocation(self, person, plane):
-        if self.getAllocation(person, plane):
-            self.deAllocate(person, plane)
-        else:
-            self.allocate(person, plane)
-
-    def __str__(self):
-        return str(self.vMatrix)
-        
 
 class Instance:
     def __init__(self, nPeople : int, kPlanes : int, cIndividual : np.ndarray,
@@ -41,48 +16,6 @@ class Instance:
         for k in range(kPlanes):
             planeCapacity[k] = 0.8 * (totalWeight/(k+1))
         return planeCapacity
-
-    def isFeasible(self, sol : Solution): #determines wether or not a solution is feasible
-        planesPerPerson = sol.vMatrix.sum(axis=0) 
-
-        #sum of planes per person is bool, only one or zero
-        onePlanePerPerson = np.array_equal(planesPerPerson, planesPerPerson.astype(bool))
-        if not onePlanePerPerson:
-            return False
-        plane = 0
-        for row in sol.vMatrix:
-            planeWeight = 0
-            for person in range(self.nPeople):
-                planeWeight += row[person]*self.pWeights[person]
-                if planeWeight > self.PCapacity[plane]:
-                    return False    
-            plane += 1
-
-        return True
-        
-    def evaluateSolution(self, sol : Solution): #returns the profit assured by given solution or -1 in case the solution is not feasible.
-        if self.isFeasible(sol):
-            val = 0
-            
-            for plane in range(self.kPlanes):
-                for person in range(self.nPeople):
-                    if (sol.getAllocation(person, plane)):  #if the person is allocated to the plane
-                        val += self.cIndividual[person]
-                        
-                    for anotherPerson in range(self.nPeople):
-                        if (sol.getAllocation(anotherPerson, plane)):
-                            val += self.cPair[person][anotherPerson]
-                    
-            return val
-        else:
-            return -1
-            
-    def returnNeighbour(self, sol : Solution): #returns a random neighbour from given solution.
-        plane = random.choice(range(self.kPlanes))
-        person = random.choice(range(self.nPeople))
-        sol.invAllocation(person, plane)
-        
-        return sol
                      
     def __str__(self):
         return f"""

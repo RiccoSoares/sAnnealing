@@ -1,9 +1,10 @@
 import planetrips as va
+from solution import Solution
 
 def greedySolution(inst : va.Instance): #finds an initial greedy solution that will be optimized with simulated annealing
     availableSpace = inst.PCapacity.tolist()
     availablePeople = list(range(inst.nPeople))
-    sol = va.Solution(inst.kPlanes, inst.nPeople)
+    sol = Solution(inst)
     sortedPlanes = list(range(inst.kPlanes))
     sortedPlanes.sort(key = lambda x:availableSpace[x])
     for plane in sortedPlanes:
