@@ -40,13 +40,10 @@ def simulatedAnnealing(inst: va.Instance): #inst arg represents an initial solut
     
 
 def main():
-    instance = va.readInstance(1)
+    instance = va.readInstance(4, test = True)
     greedy = greedySolution(instance)
-    annealed = simulatedAnnealing(instance)
     print("Initial solution is feasable: ", greedy.isFeasible())
     print("Initial solution value: ", greedy.value)
-
-    print("Found value: ", annealed.value)
     #new_solution = simulatedAnnealing(solution)
     #print(instance.isFeasible(new_solution))
 

@@ -27,8 +27,11 @@ class Instance:
         {self.PCapacity.size=}
         """
 
-def readInstance(nInstance : int): #reads instances from input file. 
+def readInstance(nInstance : int, test = False): #reads instances from input file. 
     filename = f'data/VA{nInstance:02d}.dat'
+    if test:
+        filename = f'test/VA{nInstance:02d}.dat'
+
     file = open(filename, 'r')
 
     nPeople = int(file.readline()) #first line is n
