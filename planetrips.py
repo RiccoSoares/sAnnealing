@@ -11,10 +11,7 @@ class Instance:
         self.PCapacity = self.__calculatePlaneCapacity(pWeights, kPlanes)
 
     def __calculatePlaneCapacity(self, pWeights : np.ndarray, kPlanes : int): #calculates a plane capacity following the given description.
-        planeCapacity = np.zeros(kPlanes)
-        totalWeight = np.sum(pWeights)
-        for k in range(kPlanes):
-            planeCapacity[k] = 0.8 * (totalWeight/(k+1))
+        planeCapacity = np.full((kPlanes), int(0.8*np.sum(pWeights)/kPlanes))
         return planeCapacity
 
     def __str__(self):

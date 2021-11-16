@@ -1,9 +1,9 @@
-from contextlib import redirect_stdout #only for outputting debug to log file, may be deleted later
 import numpy as np
 import math
 import random
 import planetrips as va
 import greedysol as greedy
+from sty import fg,bg
 MIN_TEMPERATURE = 0.01
 COOLING_RATE = 0.8
 
@@ -47,6 +47,13 @@ def simulatedAnnealing(inst: va.Instance): #inst arg represents an initial solut
 def main():
     instance = va.readInstance(1)
     solution = greedy.greedySolution(instance)
+    np.set_printoptions(linewidth=2000)
+    print(solution.vMatrix)
+    while(True):
+        print()
+        print(bg.black + fg.green + (str(solution.vMatrix)))
+        solution.randomNeighbourStep()
+    """
     print("Initial solution is feasable: ", solution.isFeasible())
     print("Initial solution value: ", solution.value)
     solution.randomNeighbourStep()
@@ -54,6 +61,7 @@ def main():
     print("New Solution value: ", solution.value)
     #new_solution = simulatedAnnealing(solution)
     #print(instance.isFeasible(new_solution))
+    """
 
 if __name__ == "__main__":
     main()

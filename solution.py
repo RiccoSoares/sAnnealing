@@ -18,27 +18,29 @@ class Solution:
         return freeSpace
 
     def randomNeighbourStep(self):
-        nonFeasible = True
-        while(nonFeasible):
+        notFeasible = True
+        while(notFeasible):
             plane = random.randint(0, self.__instance.kPlanes - 1)
             person = random.randint(0, self.__instance.nPeople - 1)
             if(self.vMatrix[plane][person]):
                 self.deallocate(person, plane)
-                nonFeasible = False
+                notFeasible = False
             elif(not np.sum(self.vMatrix[:,person])) and self.__instance.pWeights[person] <= self.freeSpace[plane]:
                 self.allocate(person, plane)
-                nonFeasible = False
+                notFeasible = False
 
     def allocate(self, person, plane):
         self.vMatrix[plane][person] = 1
         personValue = self.__instance.cIndividual[person]
         personValue += np.sum(self.__instance.cPair[person] * self.vMatrix[plane])
+        self.freeSpace[plane] -= self.__instance.pWeights[person]
         self.value += personValue
 
     def deallocate(self, person, plane):
         self.vMatrix[plane][person] = 0
         personValue = self.__instance.cIndividual[person]
         personValue += np.sum(self.__instance.cPair[person] * self.vMatrix[plane])
+        self.freeSpace[plane] += self.__instance.pWeights[person]
         self.value -= personValue
         
     def getAllocation(self, person, plane):
