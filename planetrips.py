@@ -8,15 +8,31 @@ class Instance:
         self.cIndividual = cIndividual
         self.cPair = cPair
         self.pWeights = pWeights
-        self.PCapacity = self.calculatePlaneCapacity(pWeights, kPlanes)
+        self.PCapacity = self.__calculatePlaneCapacity(pWeights, kPlanes)
+        self.sortedIndexes = None       #if instance is sorted by weight, holds array that represent the sorted indexes
 
-    def calculatePlaneCapacity(self, pWeights : np.ndarray, kPlanes : int): #calculates a plane capacity following the given description.
+
+    def sortByWeight(self):
+        self.sortedIndexes = np.argsort(self.pWeights)
+        weightsCopy = self.pWeights.copy()
+        individualCopy = self.cIndividual.copy()
+        cPairCopy = self.cPair.copy()
+        for person in range(self.nPeople):
+            index = self.sortedIndexes[person]
+            self.pWeights[person] = weightsCopy[index]
+            self.cIndividual[person] = individualCopy[index]
+            for friend in range(self.nPeople):
+                friendIndex = self.sortedIndexes[friend]
+                self.cPair[person][friend] = cPairCopy[index][friendIndex]
+
+
+    def __calculatePlaneCapacity(self, pWeights : np.ndarray, kPlanes : int): #calculates a plane capacity following the given description.
         planeCapacity = np.zeros(kPlanes)
         totalWeight = np.sum(pWeights)
         for k in range(kPlanes):
             planeCapacity[k] = 0.8 * (totalWeight/(k+1))
         return planeCapacity
-                     
+
     def __str__(self):
         return f"""
         {self.nPeople=}
@@ -41,16 +57,6 @@ def readInstance(nInstance : int): #reads instances from input file.
         for j in range(lineRead.size):
             cPair[i][i+j+1] = lineRead[j] #next lines are matrix c, i in [n-1], j in [i+1,n]
             cPair[i+j+1][i] = lineRead[j]
-
-    """
-    Prints cPair matrix to log file for debug purposes
-    TODO: delete this portion as soon as cPair's content is consistenly tested
-
-    np.set_printoptions(linewidth=100000, threshold=10000)
-    with open('cPairLog.txt', 'w') as f: 
-        with redirect_stdout(f):
-            print(cPair)
-    """
     
     for i in range(3):      # 3 lines of nothing, according to input file's description.
         file.readline()
@@ -66,4 +72,7 @@ def readInstance(nInstance : int): #reads instances from input file.
     else:
         kPlanes = -1
 
-    return Instance(nPeople, kPlanes, cIndividual, cPair, pWeights) 
+    instance = Instance(nPeople, kPlanes, cIndividual, cPair, pWeights) 
+    instance.sortByWeight()
+
+    return instance

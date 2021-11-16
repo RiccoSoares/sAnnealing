@@ -10,6 +10,13 @@ class Solution:
         self.freeSpace = self.__calculateFreeSpace()
         self.value = 0
 
+    def __calculateFreeSpace(self):
+        freeSpace = np.zeros(self.__instance.kPlanes)
+        for plane in range(self.__instance.kPlanes):
+            planeWeight = sum(self.__instance.pWeights * self.vMatrix[plane])
+            freeSpace[plane] = self.__instance.PCapacity[plane] - planeWeight 
+        return freeSpace
+
     def allocate(self, person, plane):
         self.vMatrix[plane][person] = 1
     def deAllocate(self, person, plane):
@@ -24,14 +31,8 @@ class Solution:
         else:
             self.allocate(person, plane)
 
-    def __calculateFreeSpace(self):
-        freeSpace = np.zeros(self.__instance.kPlanes)
-        for plane in range(self.__instance.kPlanes):
-            planeWeight = sum(self.__instance.pWeights * self.vMatrix[plane])
-            freeSpace[plane] = self.__instance.PCapacity[plane] - planeWeight 
-        return freeSpace
 
-    def isFeasible(self): #determines wether or not a self.tion is feasible
+    def isFeasible(self): #determines wether or not a solution is feasible
         planesPerPerson = self.vMatrix.sum(axis=0) 
 
         #sum of planes per person is bool, only one or zero
@@ -49,7 +50,7 @@ class Solution:
 
         return True
         
-    def evaluate(self): #returns the profit assured by given self.tion or -1 in case the self.tion is not feasible.
+    def evaluate(self): #returns the profit assured by given solution or -1 in case the solution is not feasible.
         if self.isFeasible():
             val = 0
             
@@ -67,7 +68,7 @@ class Solution:
             return -1
             
 
-    def returnNeighbour(self): #returns a random neighbour from given self.tion.
+    def returnNeighbour(self): #returns a random neighbour from given solution.
         sol = deepcopy(self)
         plane = random.choice(range(self.__instance.kPlanes))
         person = random.choice(range(self.__instance.nPeople))
