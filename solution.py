@@ -7,7 +7,7 @@ class Solution:
     def __init__(self, instance : planetrips.Instance):
         self.__instance = instance
         self.vMatrix = np.zeros((self.__instance.kPlanes, self.__instance.nPeople))
-        self.freeSpace = np.zeros(self.__instance.kPlanes)
+        self.freeSpace = self.__calculateFreeSpace()
         self.value = 0
 
     def allocate(self, person, plane):
@@ -23,6 +23,13 @@ class Solution:
             self.deAllocate(person, plane)
         else:
             self.allocate(person, plane)
+
+    def __calculateFreeSpace(self):
+        freeSpace = np.zeros(self.__instance.kPlanes)
+        for plane in range(self.__instance.kPlanes):
+            planeWeight = sum(self.__instance.pWeights * self.vMatrix[plane])
+            freeSpace[plane] = self.__instance.PCapacity[plane] - planeWeight 
+        return freeSpace
 
     def isFeasible(self): #determines wether or not a self.tion is feasible
         planesPerPerson = self.vMatrix.sum(axis=0) 
