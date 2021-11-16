@@ -39,7 +39,7 @@ def simulatedAnnealing(inst: va.Instance): #inst arg represents an initial solut
                 if flipCoin(accept_prob):
                     current_sol = candidate
         
-        temp = temp*COOLING_RATE #updates 
+        temp = temp*COOLING_RATE #updates the temperature
     
     return current_sol
     
@@ -49,6 +49,9 @@ def main():
     solution = greedy.greedySolution(instance)
     print("Initial solution is feasable: ", instance.isFeasible(solution))
     print("Initial solution value: ", instance.evaluateSolution(solution))
+    new_solution = instance.returnNeighbour(solution)
+    print("New Solution is feasable: ", instance.isFeasible(new_solution))
+    print("New Solution value: ", instance.evaluateSolution(new_solution))
     #new_solution = simulatedAnnealing(solution)
     #print(instance.isFeasible(new_solution))
 

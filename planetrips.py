@@ -1,4 +1,5 @@
 import numpy as np
+import random
 #from contextlib import redirect_stdout #only for outputting debug to log file, may be deleted later
 
 class Solution:
@@ -77,7 +78,9 @@ class Instance:
             return -1
             
     def returnNeighbour(self, sol : Solution): #returns a random neighbour from given solution.
-        #not implemented yet
+        plane = random.choice(range(self.kPlanes))
+        person = random.choice(range(self.nPeople))
+        sol.invAllocation(person, plane)
         
         return sol
                      
