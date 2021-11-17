@@ -70,6 +70,11 @@ def main():
     new_solution = simulatedAnnealing(instance, args.min_temperature, args.cooling_rate, args.k)
     print("Annealed value: ", new_solution.value)
     print("Feasible?: ", new_solution.isFeasible())
+
+    with open(args.output_file, 'w') as f:
+        for line in new_solution.vMatrix:
+            np.savetxt(f, line, fmt='%.d')
+        
 if __name__ == "__main__":
     main()
 
