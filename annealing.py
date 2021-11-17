@@ -1,5 +1,6 @@
 import random
 import copy
+import argparse
 import planetrips as va
 from utils import greedySolution
 from utils import randomSolution
@@ -50,6 +51,15 @@ def simulatedAnnealing(instance: va.Instance, min_temperature : float, cooling_r
     
 
 def main():
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--input-file', '-i', type=string, default='data/VA1.dat')
+    parser.add_argument('--output-file', '-o', type=string, default='sol.txt')
+    parser.add_argument('--min-temperature', '-m', type=float, default=1)
+    parser.add_argument('--cooling-rate', '-r', type=int, default=0.9)
+    parser.add_argument('--k', '-k', type=float, default=10)
+
+    args = parser.parse_args()
     instance = va.readInstance(1)
     greedy = greedySolution(instance)
     random = randomSolution(instance)
@@ -57,7 +67,7 @@ def main():
     print("Greedy solution: ", greedy.value)
     print("Random solution: ", random.value)
     print("Initial temperature: ", initialTemp)
-    new_solution = simulatedAnnealing(instance, 100, 0.9, 100)
+    new_solution = simulatedAnnealing(instance, args.min_temperature, args.cooling_rate, args.k)
     print("Annealed value: ", new_solution.value)
     print("Feasible?: ", new_solution.isFeasible())
 if __name__ == "__main__":
