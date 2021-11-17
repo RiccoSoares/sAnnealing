@@ -2,15 +2,19 @@ import random
 import copy
 import planetrips as va
 from utils import greedySolution
+from utils import randomSolution
 from solution import Solution
 import numpy as np
 
 def flipCoin(prob: float): #returns the result of a coin flip (true or false) with probability equals prob
     return random.random() < prob
 
-def calcInitialTemp(inst: va.Instance): #calculates the initial temp for the algorithm, following the given specifications.
-    #not implemented yet
-    return 100000
+def calcInitialTemp(instance : va.Instance): 
+    solution_values = []
+    for _ in range(20):
+        solution_values.append(randomSolution(instance).value)
+    return max(solution_values) - min(solution_values)
+
 
 def calcIParameter(inst: va.Instance): #calculates the I parameter, following the given specifications.
     return inst.nPeople * inst.kPlanes 
@@ -48,10 +52,17 @@ def simulatedAnnealing(instance: va.Instance, min_temperature : float, cooling_r
 def main():
     instance = va.readInstance(1)
     greedy = greedySolution(instance)
+    random = randomSolution(instance)
+    initialTemp = calcInitialTemp(instance)
+    print("Greedy solution: ", greedy.value)
+    print("Random solution: ", random.value)
+    print("Initial temperature: ", initialTemp)
+    """
     print("Initial solution: ", greedy.value)
     new_solution = simulatedAnnealing(instance, 100, 0.9, 10)
     print("New value: ", new_solution.value)
     print("Feasible?: ", new_solution.isFeasible())
+    """
 if __name__ == "__main__":
     main()
 
