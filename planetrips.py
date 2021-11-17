@@ -14,7 +14,7 @@ class Instance:
         planeCapacity = np.zeros(kPlanes)
         totalWeight = np.sum(pWeights)
         for k in range(kPlanes):
-            planeCapacity[k] = 0.8 * (totalWeight/(k+1))
+            planeCapacity[k] = 0.8 * (totalWeight/(kPlanes))
         return planeCapacity
 
     def __str__(self):
