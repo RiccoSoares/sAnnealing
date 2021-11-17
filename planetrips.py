@@ -1,4 +1,5 @@
 import numpy as np
+import os
 
 class Instance:
     def __init__(self, nPeople : int, kPlanes : int, cIndividual : np.ndarray,
@@ -27,12 +28,11 @@ class Instance:
         {self.PCapacity.size=}
         """
 
-def readInstance(nInstance : int, test = False): #reads instances from input file. 
-    filename = f'data/VA{nInstance:02d}.dat'
-    if test:
-        filename = f'test/VA{nInstance:02d}.dat'
+def readInstance(input_file : str, test = False): #reads instances from input file. 
 
-    file = open(filename, 'r')
+    if not os.path.isfile(input_file):
+        raise Exception("Invalid input file")
+    file = open(input_file, 'r')
 
     nPeople = int(file.readline()) #first line is n
     cIndividual = np.fromiter(map(int, file.readline().split()), int) #second line is c vector

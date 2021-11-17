@@ -53,14 +53,14 @@ def simulatedAnnealing(instance: va.Instance, min_temperature : float, cooling_r
 def main():
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input-file', '-i', type=string, default='data/VA1.dat')
-    parser.add_argument('--output-file', '-o', type=string, default='sol.txt')
+    parser.add_argument('--input-file', '-i', type=str, default='data/VA01.dat')
+    parser.add_argument('--output-file', '-o', type=str, default='sol.txt')
     parser.add_argument('--min-temperature', '-m', type=float, default=1)
-    parser.add_argument('--cooling-rate', '-r', type=int, default=0.9)
+    parser.add_argument('--cooling-rate', '-r', type=int, default=0.87)
     parser.add_argument('--k', '-k', type=float, default=10)
 
     args = parser.parse_args()
-    instance = va.readInstance(1)
+    instance = va.readInstance(args.input_file)
     greedy = greedySolution(instance)
     random = randomSolution(instance)
     initialTemp = calcInitialTemp(instance)
