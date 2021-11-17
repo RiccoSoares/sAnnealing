@@ -4,6 +4,15 @@ INF-5010 assignment. Using Simulated Annealing algorithm to solve Viagens de Avi
 
 ## Python3.9 Script Usage
 
-![image](https://user-images.githubusercontent.com/52585330/142049916-df94a3e9-d5b2-4df4-bd3b-a2f353878379.png)
+![image](https://user-images.githubusercontent.com/52585330/142296602-fc451a24-9303-4919-9581-66602944edc5.png)
 
-Where "Initial solution" represents the evaluation of a feasible solution given by our proposed greedy algorithm, and "New value", the evaluation of the solution returned by our implementation of the Simulated Annealing algorithm.
+Where -r corresponds to the simulated annealing's cooling rate, -m represents the minimum temperature and -k, the k parameter to metropolis algorithm
+
+## Parameters Variation
+The main parameters cited above were tested, in order to attempt to find the optimal configuration.
+
+![image](https://user-images.githubusercontent.com/52585330/142298635-ccb41163-a735-41d7-9c67-1c2739b98b2c.png)
+
+![image](https://user-images.githubusercontent.com/52585330/142298659-f5556006-e61e-45b8-9c2f-dea5c754d926.png)
+
+![image](https://user-images.githubusercontent.com/52585330/142298673-d849f909-4657-477b-b220-6f9ed052293f.png)
