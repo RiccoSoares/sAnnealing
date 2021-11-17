@@ -1,7 +1,7 @@
 import random
 import copy
 import planetrips as va
-from greedysol import greedySolution
+from utils import greedySolution
 from solution import Solution
 import numpy as np
 

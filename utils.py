@@ -30,3 +30,4 @@ def greedySolution(inst : va.Instance): #finds an initial greedy solution that w
                     planeHasSpace = False
     solution.value = solution.evaluate()
     return solution
+
