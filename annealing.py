@@ -72,8 +72,7 @@ def main():
     print("Feasible?: ", new_solution.isFeasible())
 
     with open(args.output_file, 'w') as f:
-        for line in new_solution.vMatrix:
-            np.savetxt(f, line, fmt='%.d')
+        np.savetxt(f, new_solution.vMatrix, fmt='%d')
         
 if __name__ == "__main__":
     main()
