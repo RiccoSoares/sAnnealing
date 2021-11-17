@@ -1,12 +1,9 @@
-import math
 import random
 import copy
 import planetrips as va
 from greedysol import greedySolution
 from solution import Solution
 import numpy as np
-MIN_TEMPERATURE = 0.0001
-COOLING_RATE = 0.8
 
 def flipCoin(prob: float): #returns the result of a coin flip (true or false) with probability equals prob
     return random.random() < prob
@@ -34,30 +31,27 @@ def metropolis(solution : Solution, temperature : float, iterations : int):
                 solution = copy.copy(candidate)
     return best
 
-def simulatedAnnealing(inst: va.Instance): #inst arg represents an initial solution given by greedy algorithm.
-    temp = calcInitialTemp(inst)
-    current = greedySolution(inst)
+def simulatedAnnealing(instance: va.Instance, min_temperature : float, cooling_rate : float, k : int): 
+    temperature = calcInitialTemp(instance)
+    I = calcIParameter(instance) #number of iterations without changing the temp value.
+    solution = greedySolution(instance)
 
-    I = calcIParameter(inst) #corresponds to the number of iterations without changing the temp value.
-    while (temp > MIN_TEMPERATURE):
+    while (temperature > min_temperature):
         for _ in range(I):
-            candidate = metropolis(current, temp, 10)
-            delta = candidate.value - current.value
-            if delta > 0:
-                current = copy.copy(candidate)
-        temp *= COOLING_RATE #updates the temperature
-    return current
+            candidate = metropolis(solution, temperature, k)
+            if candidate.value - solution.value > 0:
+                solution = copy.copy(candidate)
+        temperature *= cooling_rate #updates the temperature
+    return solution
     
 
 def main():
     instance = va.readInstance(1)
     greedy = greedySolution(instance)
     print("Initial solution: ", greedy.value)
-    new_solution = simulatedAnnealing(instance)
+    new_solution = simulatedAnnealing(instance, 100, 0.9, 10)
     print("New value: ", new_solution.value)
     print("Feasible?: ", new_solution.isFeasible())
-    
-
 if __name__ == "__main__":
     main()
 
