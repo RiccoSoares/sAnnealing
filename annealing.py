@@ -57,7 +57,7 @@ def main():
     print("Greedy solution: ", greedy.value)
     print("Random solution: ", random.value)
     print("Initial temperature: ", initialTemp)
-    new_solution = simulatedAnnealing(instance, 100, 0.9, 500)
+    new_solution = simulatedAnnealing(instance, 100, 0.9, 100)
     print("Annealed value: ", new_solution.value)
     print("Feasible?: ", new_solution.isFeasible())
 if __name__ == "__main__":
