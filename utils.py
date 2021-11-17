@@ -1,3 +1,4 @@
+import random
 import planetrips as va
 from solution import Solution
 
@@ -31,3 +32,28 @@ def greedySolution(inst : va.Instance): #finds an initial greedy solution that w
     solution.value = solution.evaluate()
     return solution
 
+def randomSolution(instance : va.Instance):
+    solution = Solution(instance)
+    available_people = set(range(instance.nPeople))
+    for plane in range(instance.kPlanes):
+        for _ in range(random.randrange(len(available_people))):
+            person = random.choice(tuple(available_people))
+            if(instance.pWeights[person] <= solution.freeSpace[plane]):
+                available_people.remove(person)
+                solution.allocate(person, plane)
+            else:
+                break
+    return solution
+
+
+
+
+    while not feasible:
+        solution.vMatrix = np.random.randint(2, size=(instance.kPlanes, instance.nPeople))
+        np.set_printoptions(threshold=10000, linewidth=10000)
+        print(solution.vMatrix)
+        feasible = solution.isFeasible() 
+    solution.value = solution.evaluate()
+    return solution
+
+        
