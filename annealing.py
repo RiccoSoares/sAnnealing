@@ -56,8 +56,8 @@ def main():
     parser.add_argument('--input-file', '-i', type=str, default='data/VA01.dat')
     parser.add_argument('--output-file', '-o', type=str, default='sol.txt')
     parser.add_argument('--min-temperature', '-m', type=float, default=1)
-    parser.add_argument('--cooling-rate', '-r', type=int, default=0.87)
-    parser.add_argument('--k', '-k', type=float, default=10)
+    parser.add_argument('--cooling-rate', '-r', type=float, default=0.87)
+    parser.add_argument('--k', '-k', type=int, default=10)
 
     args = parser.parse_args()
     instance = va.readInstance(args.input_file)
